@@ -3,7 +3,8 @@ import {MAKE_GUESS, NEW_GAME} from '../actions';
 const initialState = {
     guesses: [],
     correctAnswer: Math.round(Math.random() * 100) + 1,
-    feedback: 'Make your guess'
+		feedback: 'Make your guess',
+		auralStatus: ''
 }
 
 
@@ -15,7 +16,7 @@ export const makeGuessReducer = (state=initialState, action) => {
 	      	...state,
 	      	feedback: 'Please enter a valid number' 
 	      };
-	    }
+			}
 
 	    const difference = Math.abs(action.guess - state.correctAnswer);
 
@@ -30,18 +31,24 @@ export const makeGuessReducer = (state=initialState, action) => {
 	      feedback = 'You\'re Hot!';
 	    } else {
 	      feedback = 'You got it!';
-	    }
+			}
+			
+			const guesses = [...state.guesses, action.guess]
+			const pluralize = guesses.length !== 1;
+			let  auralStatus = `Here's the status of the game right now: ${feedback} You've made ${guesses.length} ${pluralize ? 'guesses' : 'guess'}.`;
+			const revGuess = [...guesses];
+			auralStatus += ` ${pluralize ? 'In order of most- to least-recent, they are' : 'It was'}: ${revGuess.reverse().join(', ')}`;
+			
 		return {
 			...state,
-			guesses: [...state.guesses, action.guess],
-			feedback
+			guesses,
+			feedback,
+			auralStatus
 		}
 	}
 
 	if(action.type === NEW_GAME) {
-		return {
-			initialState
-		}
+		return initialState
 	}
 	return state;
 }

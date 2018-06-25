@@ -1,4 +1,4 @@
-//Joanthan-Courtney
+//Jonathan-Courtney
 
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -7,8 +7,6 @@ import './reset.css';
 import './index.css';
 import store from './store';
 import { Provider } from 'react-redux';
-
-
 import Game from './components/game';
 
 ReactDOM.render(
